@@ -24,6 +24,6 @@ LABEL maintainer="mxoxw.com telegram-bot-api"
 RUN set -x ; apk add --no-cache libstdc++
 COPY --from=base /usr/local/bin/telegram-bot-api* /usr/local/bin/
 
-ENTRYPOINT [ "/usr/local/bin/telegram-bot-api" ]
+ENTRYPOINT [ "telegram-bot-api" ]
 
-CMD ["--api-id ${TELEGRAM_API_ID} --api-hash ${TELEGRAM_API_HASH} --local"]
+CMD ["--local"]
