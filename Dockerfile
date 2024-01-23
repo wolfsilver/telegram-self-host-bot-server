@@ -21,6 +21,7 @@ FROM alpine:3.19
 
 LABEL maintainer="mxoxw.com telegram-bot-api"
 
+RUN set -x ; apk add --no-cache libstdc++
 COPY --from=base /usr/local/bin/telegram-bot-api* /usr/local/bin/
 
 ENTRYPOINT [ "/usr/local/bin/telegram-bot-api" ]
