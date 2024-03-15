@@ -44,6 +44,12 @@ jobs:
           if [ "$latest" != "$(cat version)" ]; then
             echo "更新了"
             echo $latest > version
+            # commit and push
+            git config --global user.email "bot@tdlib"
+            git config --global user.name "tdlib-bot"
+            git add version
+            git commit -m "update version"
+            git push
           else
             echo "没有更新"
             # 退出流水线
