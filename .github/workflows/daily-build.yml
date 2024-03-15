@@ -7,11 +7,12 @@ name: Daily Build
 
 on:
   push:
-    branches: [ "main" ]
+    # branches: [ "main" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    # schedule build every night
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 env:
