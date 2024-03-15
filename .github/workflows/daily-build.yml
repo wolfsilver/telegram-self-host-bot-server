@@ -40,7 +40,19 @@ jobs:
       - name: Check update
         run: |
           latest=$(curl "https://api.github.com/repos/tdlib/telegram-bot-api/deployments" --header "Authorization: ${{ secrets.TOKEN }}" | jq '.[0].created_at')
-          # 与repo中的文件version进行比较
+          cat $latest
+          # version 文件不存在或者与repo中的文件version进行比较
+          if [ ! -f version ]; then
+            echo "文件不存在"
+            echo $latest > version
+            # commit and push
+            git config --global user.name 'wolfsilver'
+            git config --global user.email 'wolfsilver@users.noreply.github.com'
+            git add version
+            git commit -m "update version"
+            git push
+            exit 0
+          fi
           if [ "$latest" != "$(cat version)" ]; then
             echo "更新了"
             echo $latest > version
