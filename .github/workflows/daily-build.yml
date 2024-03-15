@@ -7,7 +7,7 @@ name: Daily Build
 
 on:
   push:
-    branches: [ "main" ]
+    # branches: [ "main" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   pull_request:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Check update
         run: |
-          latest=curl "https://api.github.com/repos/tdlib/telegram-bot-api/deployments" --header "Authorization: ${{ secrets.TOKEN }}" | jq '.[0].created_at'
+          latest=$(curl "https://api.github.com/repos/tdlib/telegram-bot-api/deployments" --header "Authorization: ${{ secrets.TOKEN }}" | jq '.[0].created_at')
           # 与repo中的文件version进行比较
           if [ "$latest" != "$(cat version)" ]; then
             echo "更新了"
