@@ -45,8 +45,8 @@ jobs:
             echo "更新了"
             echo $latest > version
             # commit and push
-            git config --global user.email "bot@tdlib"
-            git config --global user.name "tdlib-bot"
+            git config --global user.name 'wolfsilver'
+            git config --global user.email 'wolfsilver@users.noreply.github.com'
             git add version
             git commit -m "update version"
             git push
