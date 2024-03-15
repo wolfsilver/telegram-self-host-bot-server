@@ -39,12 +39,12 @@ jobs:
           token: ${{ secrets.TOKEN }}
 
       - name: Check update
+        id: get_update
         run: |
           latest=$(curl "https://api.github.com/repos/tdlib/telegram-bot-api/deployments" --header "Authorization: ${{ secrets.TOKEN }}" | jq '.[0].created_at')
-          echo $latest
+          # echo $latest
           # version 文件不存在或者与repo中的文件version进行比较
-          if [ ! -f version ]; then
-            echo "文件不存在"
+          if [ ! -f version ] || [ "$latest" != "$(cat version)" ]; then
             echo $latest > version
             # commit and push
             git config --global user.name 'wolfsilver'
@@ -52,28 +52,16 @@ jobs:
             git add version
             git commit -m "update version"
             git push
-            exit 0
-          fi
-          if [ "$latest" != "$(cat version)" ]; then
-            echo "更新了"
-            echo $latest > version
-            # commit and push
-            git config --global user.name 'wolfsilver'
-            git config --global user.email 'wolfsilver@users.noreply.github.com'
-            git add version
-            git commit -m "update version"
-            git push
+            echo 'true'
           else
-            echo "没有更新"
-            # 退出流水线
-            exit 1
+            echo 'false'
           fi
 
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && steps.get_update.outputs == 'true'
         uses: sigstore/cosign-installer@6e04d228eb30da1757ee4e1dd75a0ec73a653e06 #v3.1.1
         with:
           cosign-release: 'v2.1.1'
