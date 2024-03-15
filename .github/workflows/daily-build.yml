@@ -40,7 +40,7 @@ jobs:
       - name: Check update
         run: |
           latest=$(curl "https://api.github.com/repos/tdlib/telegram-bot-api/deployments" --header "Authorization: ${{ secrets.TOKEN }}" | jq '.[0].created_at')
-          cat $latest
+          echo $latest
           # version 文件不存在或者与repo中的文件version进行比较
           if [ ! -f version ]; then
             echo "文件不存在"
