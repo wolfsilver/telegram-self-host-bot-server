@@ -53,9 +53,9 @@ jobs:
             git add version > /dev/null
             git commit -m "update version" > /dev/null
             git push -q > /dev/null
-            echo "::set-output name=update::true"
+            echo "update=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::set-output name=update::false"
+            echo "update=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: test
