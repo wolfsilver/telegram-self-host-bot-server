@@ -55,6 +55,12 @@ jobs:
             git push -q > /dev/null
             echo "update=true" >> "$GITHUB_OUTPUT"
           else
+            echo $(date) > update.log
+            git config --global user.name 'wolfsilver'
+            git config --global user.email 'wolfsilver@users.noreply.github.com'
+            git add update.log > /dev/null
+            git commit -m "update log" > /dev/null
+            git push -q > /dev/null
             echo "update=false" >> "$GITHUB_OUTPUT"
           fi
 
